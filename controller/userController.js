@@ -171,9 +171,28 @@ const getUser = async (req, res) => {
   }
 };
 
+const activeTag = async (req, res) => {
+    const {email} = req.body;
+   
+    let user = await User.findOne({ _id: id });
+    if (user) {
+      return res.json({
+        success: true,
+        data: user,
+      });
+    }
+
+    let tag = user.userTag;
+    if(tag == -1) {
+      return res.status(400).json({"success" : false, "msg": "user does not have an active tag"});
+    }
+    return res.status(200).json({"success": true, "tag": tag});
+}
+
 module.exports = {
   editUser,
   getUser,
   login,
   register,
+  activeTag
 };

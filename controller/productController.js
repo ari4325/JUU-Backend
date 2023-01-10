@@ -27,7 +27,7 @@ const uploadData = async (req, res) => {
 }
 
 const getProductData = async (req, res) => {
-    const {tag} = req.body;
+    const {tag} = req.query;
     console.log(tag);
 
     try{

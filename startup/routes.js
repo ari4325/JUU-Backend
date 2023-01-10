@@ -13,10 +13,12 @@ module.exports = (app) => {
   app.use(cors());
   app.use(bodyParser.json());
   app.get('/clearTag', tagController.clearTag);
+  app.get("/activeTag", UserController.activeTag);
+  app.get('/getCart', cartController.getCart);
   app.get("/login", UserController.login);
   app.get('/getProduct', productController.getProductData);
   app.get("/:id", UserController.getUser);
-  app.get("/activeTag", UserController.activeTag);
+  
   
   app.post("/register", UserController.register);
   app.patch("/:id", UserController.editUser);

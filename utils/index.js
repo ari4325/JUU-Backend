@@ -43,7 +43,7 @@ const checkIfUserWithEmailExists = async (email) => {
 
 const checkItemPresentInCart = async (userTag, tag) => { 
   try{
-    let cart = await Cart.findOne({ "items.tag": tag } );
+    let cart = await Cart.findOne({ userTag: userTag, "items.tag": tag } );
     console.log(cart);
     if(cart) return { success: true, present: true, msg: "item present" }
     return { success: true, present: false, msg: "item not present" };

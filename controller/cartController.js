@@ -31,6 +31,7 @@ const userCart = async(req, res) => {
 
 const addProductToCart = async(req, res) => {
     const { userTag, productTag, qty } = req.body;
+    console.log(req.body)
 
     let cart = await checkIfUserCartExists(userTag);
     if(!cart.success) return res.status(400).json({ success: false, message: "Cart it not initialized" });
@@ -38,12 +39,13 @@ const addProductToCart = async(req, res) => {
     cart = cart.cart;
 
     var product = await Product.findOne({tag: productTag});
+    console.log(product);
 
     var response = await checkItemPresentInCart(userTag, productTag);
     console.log(response);
     if(response.present){
         await Cart.findOneAndUpdate(
-            { },
+            { userTag },
             { $inc: { "items.$[elem].quantity": qty, "items.$[elem].value": qty*product.price } },
             { arrayFilters: [ { "elem.tag": productTag } ] }
         );
@@ -66,4 +68,10 @@ const addProductToCart = async(req, res) => {
     return res.status(200).json({success: true, message: "item added to cart"});
 }   
 
-module.exports = {userCart, addProductToCart};
+const getCart = async (req, res) => {
+    const { userTag } = req.body;
+    let cart = await Cart.findOne({userTag});
+    return res.status(200).send({"success": true, cart});
+}
+
+module.exports = {userCart, addProductToCart, getCart};

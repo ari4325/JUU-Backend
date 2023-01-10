@@ -5,6 +5,7 @@ const User = require('../models/Customer');
 
 const generateTag = async (req, res) => {
     const { email } = req.body;
+    console.log(email);
 
     const user = await User.findOne({email});
     if(user == undefined) {
@@ -46,8 +47,8 @@ const clearTag = async (req, res) => {
         });
     }
 
-    if(data[tag] !== undefined){
-        data[tag] = "";
+    if(data[user.userTag] !== undefined){
+        data[user.userTag] = "";
         await user.update({ userTag: -1});
     }
     return res.status(200).json({"success": true, "user": await User.findOne({email})});
